@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.pay.dao.TbBatchOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.example.pay.model.TbBatchOrder" >
+    <id column="BATCH_SEQ_NO" property="batchSeqNo" jdbcType="BIGINT" />
+    <result column="BATCH_NO" property="batchNo" jdbcType="VARCHAR" />
+    <result column="PAY_BATCH_NO" property="payBatchNo" jdbcType="VARCHAR" />
+    <result column="BATCH_TYPE" property="batchType" jdbcType="CHAR" />
+    <result column="MEMBER_ID" property="memberId" jdbcType="VARCHAR" />
+    <result column="MEMBER_NAME" property="memberName" jdbcType="VARCHAR" />
+    <result column="TRANS_TYPE" property="transType" jdbcType="VARCHAR" />
+    <result column="PROCESS_SEQ_NO" property="processSeqNo" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="FEE" property="fee" jdbcType="DECIMAL" />
+    <result column="STORE_FILE" property="storeFile" jdbcType="VARCHAR" />
+    <result column="STORE_ADDRESS" property="storeAddress" jdbcType="VARCHAR" />
+    <result column="TOTAL_NUM" property="totalNum" jdbcType="DECIMAL" />
+    <result column="END_NUM" property="endNum" jdbcType="DECIMAL" />
+    <result column="CALLBACK_ADDR" property="callbackAddr" jdbcType="VARCHAR" />
+    <result column="CALLBACK_STATUS" property="callbackStatus" jdbcType="VARCHAR" />
+    <result column="CALLBACK_COUNT" property="callbackCount" jdbcType="INTEGER" />
+    <result column="CALLBACK_NEXT" property="callbackNext" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="GMT_CREATE" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="GMT_MODIFY" property="gmtModify" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BATCH_SEQ_NO, BATCH_NO, PAY_BATCH_NO, BATCH_TYPE, MEMBER_ID, MEMBER_NAME, TRANS_TYPE, 
+    PROCESS_SEQ_NO, AMOUNT, FEE, STORE_FILE, STORE_ADDRESS, TOTAL_NUM, END_NUM, CALLBACK_ADDR, 
+    CALLBACK_STATUS, CALLBACK_COUNT, CALLBACK_NEXT, STATUS, MEMO, GMT_CREATE, GMT_MODIFY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_batch_order
+    where BATCH_SEQ_NO = #{batchSeqNo,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_batch_order
+    where BATCH_SEQ_NO = #{batchSeqNo,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.example.pay.model.TbBatchOrder" >
+    insert into tb_batch_order (BATCH_SEQ_NO, BATCH_NO, PAY_BATCH_NO, 
+      BATCH_TYPE, MEMBER_ID, MEMBER_NAME, 
+      TRANS_TYPE, PROCESS_SEQ_NO, AMOUNT, 
+      FEE, STORE_FILE, STORE_ADDRESS, 
+      TOTAL_NUM, END_NUM, CALLBACK_ADDR, 
+      CALLBACK_STATUS, CALLBACK_COUNT, CALLBACK_NEXT, 
+      STATUS, MEMO, GMT_CREATE, 
+      GMT_MODIFY)
+    values (#{batchSeqNo,jdbcType=BIGINT}, #{batchNo,jdbcType=VARCHAR}, #{payBatchNo,jdbcType=VARCHAR}, 
+      #{batchType,jdbcType=CHAR}, #{memberId,jdbcType=VARCHAR}, #{memberName,jdbcType=VARCHAR}, 
+      #{transType,jdbcType=VARCHAR}, #{processSeqNo,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, 
+      #{fee,jdbcType=DECIMAL}, #{storeFile,jdbcType=VARCHAR}, #{storeAddress,jdbcType=VARCHAR}, 
+      #{totalNum,jdbcType=DECIMAL}, #{endNum,jdbcType=DECIMAL}, #{callbackAddr,jdbcType=VARCHAR}, 
+      #{callbackStatus,jdbcType=VARCHAR}, #{callbackCount,jdbcType=INTEGER}, #{callbackNext,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=CHAR}, #{memo,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModify,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.pay.model.TbBatchOrder" >
+    insert into tb_batch_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="batchSeqNo != null" >
+        BATCH_SEQ_NO,
+      </if>
+      <if test="batchNo != null" >
+        BATCH_NO,
+      </if>
+      <if test="payBatchNo != null" >
+        PAY_BATCH_NO,
+      </if>
+      <if test="batchType != null" >
+        BATCH_TYPE,
+      </if>
+      <if test="memberId != null" >
+        MEMBER_ID,
+      </if>
+      <if test="memberName != null" >
+        MEMBER_NAME,
+      </if>
+      <if test="transType != null" >
+        TRANS_TYPE,
+      </if>
+      <if test="processSeqNo != null" >
+        PROCESS_SEQ_NO,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="fee != null" >
+        FEE,
+      </if>
+      <if test="storeFile != null" >
+        STORE_FILE,
+      </if>
+      <if test="storeAddress != null" >
+        STORE_ADDRESS,
+      </if>
+      <if test="totalNum != null" >
+        TOTAL_NUM,
+      </if>
+      <if test="endNum != null" >
+        END_NUM,
+      </if>
+      <if test="callbackAddr != null" >
+        CALLBACK_ADDR,
+      </if>
+      <if test="callbackStatus != null" >
+        CALLBACK_STATUS,
+      </if>
+      <if test="callbackCount != null" >
+        CALLBACK_COUNT,
+      </if>
+      <if test="callbackNext != null" >
+        CALLBACK_NEXT,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="gmtCreate != null" >
+        GMT_CREATE,
+      </if>
+      <if test="gmtModify != null" >
+        GMT_MODIFY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="batchSeqNo != null" >
+        #{batchSeqNo,jdbcType=BIGINT},
+      </if>
+      <if test="batchNo != null" >
+        #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payBatchNo != null" >
+        #{payBatchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="batchType != null" >
+        #{batchType,jdbcType=CHAR},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberName != null" >
+        #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="transType != null" >
+        #{transType,jdbcType=VARCHAR},
+      </if>
+      <if test="processSeqNo != null" >
+        #{processSeqNo,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="storeFile != null" >
+        #{storeFile,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAddress != null" >
+        #{storeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="totalNum != null" >
+        #{totalNum,jdbcType=DECIMAL},
+      </if>
+      <if test="endNum != null" >
+        #{endNum,jdbcType=DECIMAL},
+      </if>
+      <if test="callbackAddr != null" >
+        #{callbackAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="callbackStatus != null" >
+        #{callbackStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="callbackCount != null" >
+        #{callbackCount,jdbcType=INTEGER},
+      </if>
+      <if test="callbackNext != null" >
+        #{callbackNext,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.pay.model.TbBatchOrder" >
+    update tb_batch_order
+    <set >
+      <if test="batchNo != null" >
+        BATCH_NO = #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payBatchNo != null" >
+        PAY_BATCH_NO = #{payBatchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="batchType != null" >
+        BATCH_TYPE = #{batchType,jdbcType=CHAR},
+      </if>
+      <if test="memberId != null" >
+        MEMBER_ID = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberName != null" >
+        MEMBER_NAME = #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="transType != null" >
+        TRANS_TYPE = #{transType,jdbcType=VARCHAR},
+      </if>
+      <if test="processSeqNo != null" >
+        PROCESS_SEQ_NO = #{processSeqNo,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        FEE = #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="storeFile != null" >
+        STORE_FILE = #{storeFile,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAddress != null" >
+        STORE_ADDRESS = #{storeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="totalNum != null" >
+        TOTAL_NUM = #{totalNum,jdbcType=DECIMAL},
+      </if>
+      <if test="endNum != null" >
+        END_NUM = #{endNum,jdbcType=DECIMAL},
+      </if>
+      <if test="callbackAddr != null" >
+        CALLBACK_ADDR = #{callbackAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="callbackStatus != null" >
+        CALLBACK_STATUS = #{callbackStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="callbackCount != null" >
+        CALLBACK_COUNT = #{callbackCount,jdbcType=INTEGER},
+      </if>
+      <if test="callbackNext != null" >
+        CALLBACK_NEXT = #{callbackNext,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null" >
+        GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        GMT_MODIFY = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where BATCH_SEQ_NO = #{batchSeqNo,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.pay.model.TbBatchOrder" >
+    update tb_batch_order
+    set BATCH_NO = #{batchNo,jdbcType=VARCHAR},
+      PAY_BATCH_NO = #{payBatchNo,jdbcType=VARCHAR},
+      BATCH_TYPE = #{batchType,jdbcType=CHAR},
+      MEMBER_ID = #{memberId,jdbcType=VARCHAR},
+      MEMBER_NAME = #{memberName,jdbcType=VARCHAR},
+      TRANS_TYPE = #{transType,jdbcType=VARCHAR},
+      PROCESS_SEQ_NO = #{processSeqNo,jdbcType=VARCHAR},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      FEE = #{fee,jdbcType=DECIMAL},
+      STORE_FILE = #{storeFile,jdbcType=VARCHAR},
+      STORE_ADDRESS = #{storeAddress,jdbcType=VARCHAR},
+      TOTAL_NUM = #{totalNum,jdbcType=DECIMAL},
+      END_NUM = #{endNum,jdbcType=DECIMAL},
+      CALLBACK_ADDR = #{callbackAddr,jdbcType=VARCHAR},
+      CALLBACK_STATUS = #{callbackStatus,jdbcType=VARCHAR},
+      CALLBACK_COUNT = #{callbackCount,jdbcType=INTEGER},
+      CALLBACK_NEXT = #{callbackNext,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=CHAR},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP},
+      GMT_MODIFY = #{gmtModify,jdbcType=TIMESTAMP}
+    where BATCH_SEQ_NO = #{batchSeqNo,jdbcType=BIGINT}
+  </update>
+</mapper>
