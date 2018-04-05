@@ -1,7 +1,6 @@
 package com.example.pay.job.impl;
 
 
-import com.example.pay.job.BaseJob;
 import com.example.pay.model.User;
 import com.example.pay.service.UserService;
 import org.joda.time.DateTime;
@@ -15,14 +14,14 @@ import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class HelloJob implements BaseJob {
+public class HelloJob extends AbstractUniqueJob {
     private static final Logger logger = LoggerFactory.getLogger(HelloJob.class);
 
     @Autowired
     private UserService userService;
 
     @Override
-    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+    protected void doExecute(JobExecutionContext context) {
         //获取队列
         BlockingQueue<Runnable> blockingQueue = new ArrayBlockingQueue<Runnable>(20);//队列大小
         //创建自定义线程池
@@ -30,6 +29,9 @@ public class HelloJob implements BaseJob {
                 TimeUnit.SECONDS,blockingQueue);
         logger.info("线程池活跃线程："+threadPoolExecutor.getActiveCount());
 
+
+        ThreadPoolMonitor monitor = new ThreadPoolMonitor(threadPoolExecutor);
+        monitor.start();
         //查询数据库数据   处理完成数据后更新任务库
         List<User>  list = userService.findUserInfo();
         AtomicInteger successQuantity = new AtomicInteger(0);
@@ -61,7 +63,12 @@ public class HelloJob implements BaseJob {
 //        logger.info("--你好");
     }
 
-    private int updateUserInfo(User user,CountDownLatch latch){
+    @Override
+    protected Logger getLogger() {
+        return logger;
+    }
+
+    private int updateUserInfo(User user, CountDownLatch latch){
         //一般来讲，我会尽量避免使用系统时钟来初始化应用程序的实际，而是倾向于外部化设置应用程序代码使用的系统时间。
         long start = new DateTime().getMillis();
         int i = userService.update(user);
