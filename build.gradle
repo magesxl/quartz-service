@@ -46,6 +46,7 @@ dependencies {
 
     compile('org.projectlombok:lombok:1.16.18')
 
+    compile('com.alibaba:fastjson:1.2.33')
 
     compile('joda-time:joda-time:2.9.9')
 
