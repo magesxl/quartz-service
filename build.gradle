@@ -63,6 +63,9 @@ dependencies {
     compile('io.springfox:springfox-swagger2:2.2.2')
     compile('io.springfox:springfox-swagger-ui:2.2.2')
 
+    //ftp上传
+    compile('commons-net:commons-net:3.6')
+
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
 
