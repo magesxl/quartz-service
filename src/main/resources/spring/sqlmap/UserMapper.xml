@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.pay.dao.UserDao">
-    <resultMap id="BaseResultMap" type="com.example.pay.model.User" >
-        <id column="id" property="id" jdbcType="BIGINT" />
-        <result column="name" property="name" jdbcType="VARCHAR" />
-        <result column="age" property="age" jdbcType="VARCHAR" />
+    <resultMap id="BaseResultMap" type="com.example.pay.model.User">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="VARCHAR"/>
     </resultMap>
     <select id="queryUser" resultMap="BaseResultMap">
         SELECT
@@ -13,14 +13,27 @@
         user
     </select>
 
-<update id="update" parameterType="com.example.pay.model.User" >
+    <update id="update" parameterType="com.example.pay.model.User">
 update user
 set name = #{name,jdbcType=VARCHAR},
 age = #{age,jdbcType=VARCHAR}
 where id = #{id,jdbcType=BIGINT}
 </update>
 
+    <update id="batchUpdateOrderByMerId" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            UPDATE user set name = #{item.name} , age =
+            #{item.age}  WHERE id = #{item.id}
+        </foreach>
+    </update>
 
+    <update id="batchUpdateByPaDefenceId" parameterType="java.util.Map">
+        UPDATE user set name = #{name} , age = #{age}
+        WHERE id IN
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
     <!-- 分页查询时要用到的总数统计 -->
     <select id="listPageCount" parameterType="java.util.Map"
             resultType="java.lang.Long">
