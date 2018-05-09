@@ -4,17 +4,24 @@ package com.example.pay.util;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.NoHttpResponseException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreConnectionPNames;
+import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -27,20 +34,50 @@ import java.util.Map;
  * http请求工具类
  */
 public class HttpUtil {
+    private static final Logger logger = LoggerFactory.getLogger(HttpUtil.class);
 
     /**
-     *
      * @param params
      * @param url
      * @param encoding
      * @throws IOException
      */
 
-    public void doPost(Map<String,String> params,String url,String encoding) throws IOException {
+    public void doPost(Map<String, String> params, String url, String encoding) throws IOException {
 
         //创建默认的httpclient
-        HttpClient httpClient = HttpClients.createDefault();
-
+//        HttpClient httpClient = HttpClients.createDefault();
+        //失败了会重试三次
+        //       HttpClient httpClient = HttpClients.custom().setRetryHandler(new DefaultHttpRequestRetryHandler(3, true)).build();
+//        HttpClient httpClient = HttpClients.custom().setRetryHandler(new HttpRequestRetryHandler() {
+//            @Override
+//            public boolean retryRequest(IOException exception, int executionCount,
+//                                        HttpContext context) {
+//                if (executionCount > 3) {
+//                    logger.warn("Maximum tries reached for client http pool ");
+//                    return false;
+//                }
+//                if (exception instanceof org.apache.http.NoHttpResponseException) {
+//                    logger.warn("No response from server on " + executionCount + " call");
+//                    return true;
+//                }
+//                return false;
+//            }
+//        }).build();
+        HttpClient httpClient = HttpClients.custom().setRetryHandler((exception, executionCount, context) -> {
+            if (executionCount > 3) {
+                logger.warn("Maximum tries reached for client http pool ");
+                return false;
+            }
+            if (exception instanceof NoHttpResponseException     //NoHttpResponseException 重试
+                    || exception instanceof ConnectTimeoutException //连接超时重试
+//              || exception instanceof SocketTimeoutException    //响应超时不重试，避免造成业务数据不一致
+                    ) {
+                logger.warn("No response from server on " + executionCount + " call");
+                return true;
+            }
+            return false;
+        }).build();
         //创建post请求
         HttpPost post = new HttpPost(url);
 
@@ -52,7 +89,7 @@ public class HttpUtil {
         List<NameValuePair> list = setHttpParams(params);
 
         //设置参数到请求对象中
-        post.setEntity(new UrlEncodedFormEntity(list,encoding));
+        post.setEntity(new UrlEncodedFormEntity(list, encoding));
 
         //设置header信息
         //指定报文头【Content-type】、【User-Agent】
@@ -69,7 +106,7 @@ public class HttpUtil {
         //EntityUtils.consume(response.getEntity());
     }
 
-    public static String doGet(Map<String,String> params,String url) throws IOException {
+    public static String doGet(Map<String, String> params, String url) throws IOException {
 
         //创建默认的httpclient
         HttpClient httpClient = HttpClients.createDefault();
@@ -81,7 +118,7 @@ public class HttpUtil {
 
         String param = URLEncodedUtils.format(list, "UTF-8");
 
-        get.setURI(URI.create(url+"?"+param));
+        get.setURI(URI.create(url + "?" + param));
 
         //设置header信息
         //指定报文头【Content-type】、【User-Agent】
@@ -119,12 +156,13 @@ public class HttpUtil {
         String content = IOUtils.toString(response.getEntity().getContent());
         get.abort();
         //关流
-       // EntityUtils.consume(response.getEntity());
+        // EntityUtils.consume(response.getEntity());
         return content;
     }
 
     /**
      * 设置请求参数
+     *
      * @param
      * @return
      */
