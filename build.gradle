@@ -65,11 +65,10 @@ dependencies {
 
     //ftp上传
     compile('commons-net:commons-net:3.6')
+    //http调用
+    compile ('com.squareup.okhttp3:okhttp:3.6.0')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
 
-//    compile group: 'com.google.code.gson', name: 'gson', version:'2.7'
-//    compile group: 'org.quartz-scheduler', name: 'quartz', version:'2.3.0'
-//    compile group: 'org.quartz-scheduler', name: 'quartz-jobs', version:'2.3.0'
 }
