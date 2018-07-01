@@ -3,6 +3,7 @@ package com.example.pay;
 
 import com.alibaba.fastjson.JSON;
 import com.example.pay.dao.CityDao;
+import com.example.pay.kafa.KafkaSender;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +19,9 @@ public class PayApplicationTests {
 	@Test
 	public void contextLoads() {
 	}
+
+	@Autowired
+	private KafkaSender kafkaSender;
 
 	@Autowired
 	private CityDao cityDao;
@@ -36,5 +40,10 @@ public class PayApplicationTests {
 	public void findAlltest() {
 
 		System.out.println(JSON.toJSONString(cityDao.findAllCity()));
+	}
+
+	@Test
+	public void test() throws Exception {
+		kafkaSender.send();
 	}
 }

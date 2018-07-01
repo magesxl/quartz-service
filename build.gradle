@@ -52,7 +52,8 @@ dependencies {
     compile('com.alibaba:fastjson:1.2.33')
 
     compile('joda-time:joda-time:2.9.9')
-
+    //kafa
+    compile('org.springframework.kafka:spring-kafka:2.1.6.RELEASE')
     //http链接
     compile('org.apache.httpcomponents:httpclient:4.5.4')
     compile('org.apache.httpcomponents:httpclient-cache:4.5.4')
