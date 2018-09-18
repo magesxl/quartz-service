@@ -5,10 +5,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @MapperScan("com.example.pay.dao")
 @SpringBootApplication
-@ComponentScan("com.example.pay.kafa")
+//@ComponentScan("com.example.pay.kafa")
+@EnableSwagger2
 //@ServletComponentScan   //spring能够扫描到我们自己编写的servlet和filte
 public class PayApplication {
 

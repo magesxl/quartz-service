@@ -61,8 +61,9 @@ dependencies {
 
     compile('org.apache.commons:commons-io:1.3.2')
     //swagger
-    compile('io.springfox:springfox-swagger2:2.2.2')
-    compile('io.springfox:springfox-swagger-ui:2.2.2')
+    compile('io.springfox:springfox-swagger2:2.9.2')
+    compile('io.springfox:springfox-swagger-ui:2.9.2')
+    compile('io.springfox:springfox-data-rest:2.9.2')
 
     //ftp上传
     compile('commons-net:commons-net:3.6')
