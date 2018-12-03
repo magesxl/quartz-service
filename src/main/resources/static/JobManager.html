@@ -247,6 +247,7 @@
         },
         methods: {
             //其他写法请参考 http://www.cnblogs.com/keepfool/p/5657065.html  如果请求为json，并且接收@RequestBody 把下面params修改为 使用body接收数据
+            // 如果两者都有，可以params、body并存
             //从服务器读取数据
 //            loadData: function (pageNum, pageSize) {
 //                this.$http({
@@ -255,6 +256,26 @@
 //                    params: {
 //                        'currentPage': pageNum,
 //                        'pageSize': pageSize
+//                    },
+//                    headers: {'appkey': this.appkey,'appsecret':this.appsecret}  //
+//                }).then(function (res) {
+//                    console.log(res)
+//                    this.tableData = res.data.data.records;
+//                    this.totalCount = res.data.data.totalRecords;
+//                }, function () {
+//                    console.log('failed');
+//                });
+//            },
+
+//            loadData: function (pageNum, pageSize) {
+//                this.$http({
+//                    method: 'get',
+//                    url: '/v1/notes/{noteId}',
+//                    params: {
+//                        'noteId': noteId,
+//                    },
+//                    body: {
+//                        'noteName': noteName,
 //                    },
 //                    headers: {'appkey': this.appkey,'appsecret':this.appsecret}  //
 //                }).then(function (res) {

@@ -3,6 +3,7 @@ package com.example.pay.test.java7;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 /*
 
@@ -13,6 +14,7 @@ public class CastTest {
         numberF();
         objectF();
         randomF();
+        System.out.println(TimeUnit.MILLISECONDS.convert(10, TimeUnit.SECONDS));
     }
 
 
@@ -48,7 +50,7 @@ public class CastTest {
         System.out.println(Objects.toString(list));
     }
 
-    public static void randomF(){
+    public static void randomF() {
         ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
         int sum = threadLocalRandom.nextInt();
         System.out.println(Objects.toString(sum));

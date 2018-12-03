@@ -2,6 +2,9 @@ package com.example.pay.util;
 
 import com.alibaba.fastjson.JSON;
 import okhttp3.*;
+import org.kie.api.KieServices;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 
 import javax.net.ssl.*;
 import java.security.SecureRandom;
@@ -78,6 +81,16 @@ public class OkHttp {
             }
         };
         return hostnameVerifier;
+    }
+
+    public static void main(String[] args) {
+        KieServices kieServices = KieServices.Factory.get();
+        KieContainer kieContainer = kieServices.newKieClasspathContainer();
+
+
+        KieSession kieSession = kieContainer.newKieSession("ksession-rules");
+        kieSession.fireAllRules();
+        kieSession.destroy();
     }
 
 }

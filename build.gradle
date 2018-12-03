@@ -68,7 +68,17 @@ dependencies {
     //ftp上传
     compile('commons-net:commons-net:3.6')
     //http调用
-    compile ('com.squareup.okhttp3:okhttp:3.6.0')
+    compile('com.squareup.okhttp3:okhttp:3.6.0')
+
+    //规则引擎
+    compile('org.drools:drools-core:7.0.0.Final')
+    compile('org.drools:drools-compiler:7.0.0.Final')
+    compile('org.drools:drools-decisiontables:7.0.0.Final')
+    compile('org.drools:drools-templates:7.0.0.Final')
+    compile('org.kie:kie-api:7.0.0.Final')
+
+    //
+    compile('com.google.guava:guava:27.0-jre')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
