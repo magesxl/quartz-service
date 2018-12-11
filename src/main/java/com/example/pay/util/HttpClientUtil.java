@@ -52,7 +52,7 @@ public class HttpClientUtil {
         LayeredConnectionSocketFactory sslsf = SSLConnectionSocketFactory
                 .getSocketFactory();
         Registry<ConnectionSocketFactory> registry = RegistryBuilder
-                .<ConnectionSocketFactory> create().register("http", plainsf)
+                .<ConnectionSocketFactory>create().register("http", plainsf)
                 .register("https", sslsf).build();
         connManager = new PoolingHttpClientConnectionManager(registry);
         // 将最大连接数增加到200
@@ -66,39 +66,37 @@ public class HttpClientUtil {
         connManager.setDefaultSocketConfig(socketConfig);
         RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(REQUESTCONNECT_TIMEOUT)
                 .setConnectTimeout(CONNECT_TIMEOUT).setSocketTimeout(SOCKET_TIMEOUT).build();
-        HttpRequestRetryHandler httpRequestRetryHandler = new HttpRequestRetryHandler() {
-            public boolean retryRequest(IOException exception, int executionCount, HttpContext context) {
-                if (executionCount >= 3) {// 如果已经重试了3次，就放弃
-                    logger.warn("Maximum tries reached for client http pool ");
-                    return false;
-                }
-                if (exception instanceof NoHttpResponseException) {// 如果服务器丢掉了连接，那么就重试
-                    logger.warn("No response from server on " + executionCount + " call");
-                    return true;
-                }
-                if (exception instanceof SSLHandshakeException) {// 不要重试SSL握手异常
-                    return false;
-                }
-                if (exception instanceof InterruptedIOException) {// 超时
-                    return true;
-                }
-                if (exception instanceof UnknownHostException) {// 目标服务器不可达
-                    return false;
-                }
-                if (exception instanceof ConnectTimeoutException) {// 连接被拒绝
-                    return false;
-                }
-                if (exception instanceof SSLException) {// ssl握手异常
-                    return false;
-                }
-                HttpClientContext clientContext = HttpClientContext.adapt(context);
-                HttpRequest request = clientContext.getRequest();
-                // 如果请求是幂等的，就再次尝试
-                if (!(request instanceof HttpEntityEnclosingRequest)) {
-                    return true;
-                }
+        HttpRequestRetryHandler httpRequestRetryHandler = (exception, executionCount, context) -> {
+            if (executionCount >= 3) {// 如果已经重试了3次，就放弃
+                logger.warn("Maximum tries reached for client http pool ");
                 return false;
             }
+            if (exception instanceof NoHttpResponseException) {// 如果服务器丢掉了连接，那么就重试
+                logger.warn("No response from server on " + executionCount + " call");
+                return true;
+            }
+            if (exception instanceof SSLHandshakeException) {// 不要重试SSL握手异常
+                return false;
+            }
+            if (exception instanceof InterruptedIOException) {// 超时
+                return true;
+            }
+            if (exception instanceof UnknownHostException) {// 目标服务器不可达
+                return false;
+            }
+            if (exception instanceof ConnectTimeoutException) {// 连接被拒绝
+                return false;
+            }
+            if (exception instanceof SSLException) {// ssl握手异常
+                return false;
+            }
+            HttpClientContext clientContext = HttpClientContext.adapt(context);
+            HttpRequest request = clientContext.getRequest();
+            // 如果请求是幂等的，就再次尝试
+            if (!(request instanceof HttpEntityEnclosingRequest)) {
+                return true;
+            }
+            return false;
         };
         httpClient = HttpClients.custom().setConnectionManager(connManager).setDefaultRequestConfig(requestConfig)
                 .setRetryHandler(httpRequestRetryHandler).build();
