@@ -9,7 +9,7 @@ import java.time.Instant;
  * 5位数据中心标识跟5位机器标识这样的分配仅仅是当前实现中分配的，如果业务有其实的需要，可以按其它的分配比例分配，如10位机器标识，不需要数据中心标识。
  * 协议格式： 0 - 41位时间戳 - 5位数据中心标识 - 5位机器标识 - 12位序列号
  */
-public class SnowFlake {
+public class SnowFlakeUtil {
 
     /**
      * 起始的时间戳
@@ -45,10 +45,11 @@ public class SnowFlake {
     /**
      * 通过单例模式来获取实例
      * 分布式部署服务时，数据节点标识和机器标识作为联合键必须唯一
+     *
      * @param datacenterId 数据节点标识ID
-     * @param machineId 机器标识ID
+     * @param machineId    机器标识ID
      */
-    public SnowFlake(long datacenterId, long machineId) {
+    public SnowFlakeUtil(long datacenterId, long machineId) {
         if (datacenterId > MAX_DATACENTER_NUM || datacenterId < 0) {
             throw new IllegalArgumentException("datacenterId can't be greater than MAX_DATACENTER_NUM or less than 0");
         }
@@ -110,12 +111,13 @@ public class SnowFlake {
     }
 
     public static void main(String[] args) {
-        SnowFlake snowFlake = new SnowFlake(2, 3);
+        SnowFlakeUtil snowFlake = new SnowFlakeUtil(2, 3);
         System.out.println(1 << 4);
         System.out.println(snowFlake.nextId());
-//        for (int i = 0; i < (1 << 4); i++) {
-//            System.out.println(snowFlake.nextId());
-//        }
+        for (int i = 0; i < (1 << 4); i++) {
+            System.out.println(snowFlake.nextId());
+        }
 
     }
+
 }
