@@ -3,13 +3,17 @@ package com.example.pay.controller;
 
 import com.example.pay.model.User;
 import com.example.pay.service.UserService;
+import io.reactivex.Observable;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /*
 @Controller：修饰class，用来创建处理http请求的对象
@@ -25,7 +29,7 @@ import java.util.*;
 @RequestMapping(value = "/users")
 public class UserController {
 
-    static Map<Long,User>  users = Collections.synchronizedMap(new HashMap());
+    static Map<Long,User> users = Collections.synchronizedMap(new HashMap());
     @Autowired
     private UserService userService;
 
@@ -52,6 +56,12 @@ public class UserController {
     public String postUser(@ApiIgnore User user) {
         users.put(user.getId(), user);
         return "success";
+    }
+
+
+    @GetMapping("/app/check/state")
+    public Observable<User> getState(){
+       return null;
     }
 
 }

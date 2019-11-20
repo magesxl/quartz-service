@@ -9,6 +9,31 @@ public class City implements Serializable{
 
     private static final long serialVersionUID = -1L;
 
+    public City() {
+    }
+
+    public City(Long id) {
+        this.id = id;
+    }
+
+    public City(Long id, Long provinceId) {
+        this.id = id;
+        this.provinceId = provinceId;
+    }
+
+    public City(Long id, Long provinceId, String cityName) {
+        this.id = id;
+        this.provinceId = provinceId;
+        this.cityName = cityName;
+    }
+
+    public City(Long id, Long provinceId, String cityName, String description) {
+        this.id = id;
+        this.provinceId = provinceId;
+        this.cityName = cityName;
+        this.description = description;
+    }
+
     /**
      * 城市编号
      */

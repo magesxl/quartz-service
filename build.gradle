@@ -1,3 +1,6 @@
+//使用springboot plugin 生成带有spring启动器的jar
+//使用方式是 gradle build ，打出来的是有特定结构的 jar，四部分，本项目的class文件、依赖项目的 jar 包、Manifest、Spring 启动器
+
 buildscript {
     ext {
         springBootVersion = '2.0.0.RELEASE'
@@ -79,6 +82,10 @@ dependencies {
 
     //
     compile('com.google.guava:guava:27.0-jre')
+
+    compile('io.reactivex.rxjava2:rxjava:2.2.10')
+
+    compile('cglib:cglib:3.2.10')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
