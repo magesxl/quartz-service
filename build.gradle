@@ -3,7 +3,7 @@
 
 buildscript {
     ext {
-        springBootVersion = '2.0.0.RELEASE'
+        springBootVersion = '2.2.1.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -13,6 +13,9 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.google.cloud.tools.jib" version "2.4.0"
+}
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
@@ -81,9 +84,9 @@ dependencies {
     compile('org.kie:kie-api:7.0.0.Final')
 
     //
-    compile('com.google.guava:guava:27.0-jre')
+//    compile('com.google.guava:guava:27.0-jre')
 
-    compile('io.reactivex.rxjava2:rxjava:2.2.10')
+    compile('io.r、eactivex.rxjava2:rxjava:2.2.10')
 
     compile('cglib:cglib:3.2.10')
 
