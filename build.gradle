@@ -3,7 +3,7 @@
 
 buildscript {
     ext {
-        springBootVersion = '2.2.1.RELEASE'
+        springBootVersion = '2.5.8'
     }
     repositories {
         mavenCentral()
@@ -33,33 +33,37 @@ repositories {
     mavenCentral()
 }
 
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
 dependencies {
-    //定时任务quartz
-    compile('org.springframework.boot:spring-boot-starter-quartz')
+//    compile('org.springframework.boot:spring-boot-starter-quartz')
 
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 
-    compile('org.springframework.boot:spring-boot-devtools')
-    compile('org.springframework.boot:spring-boot-starter-actuator')
+//    compile('org.springframework.boot:spring-boot-devtools')
+//    compile('org.springframework.boot:spring-boot-starter-actuator')
 
 
-    compile('org.springframework.boot:spring-boot-starter-activemq')
+//    compile('org.springframework.boot:spring-boot-starter-activemq')
     compile('org.springframework.boot:spring-boot-starter-web')
 
     //数据库
-    compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+//    compile('org.springframework.boot:spring-boot-starter-data-mongodb')
     compile('org.springframework.boot:spring-boot-starter-data-redis')
-    compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2')
+    compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0')
     compile 'com.alibaba:druid-spring-boot-starter:1.1.10'
     runtime('mysql:mysql-connector-java')
 
-    compile('org.projectlombok:lombok:1.16.18')
+    compileOnly('org.projectlombok:lombok:1.18.22')
+    annotationProcessor('org.projectlombok:lombok:1.18.22')
 
     compile('com.alibaba:fastjson:1.2.33')
 
     compile('joda-time:joda-time:2.9.9')
     //kafa
-    compile('org.springframework.kafka:spring-kafka:2.1.6.RELEASE')
+//    compile('org.springframework.kafka:spring-kafka:2.1.6.RELEASE')
     //http链接
     compile('org.apache.httpcomponents:httpclient:4.5.4')
     compile('org.apache.httpcomponents:httpclient-cache:4.5.4')
@@ -67,15 +71,19 @@ dependencies {
 
     compile('org.apache.commons:commons-io:1.3.2')
     //swagger
-    compile('io.springfox:springfox-swagger2:2.9.2')
-    compile('io.springfox:springfox-swagger-ui:2.9.2')
-    compile('io.springfox:springfox-data-rest:2.9.2')
+    compile('io.springfox:springfox-swagger2:3.0.0')
+    compile('io.springfox:springfox-swagger-ui:3.0.0')
+    compile('io.springfox:springfox-data-rest:3.0.0')
 
     //ftp上传
     compile('commons-net:commons-net:3.6')
     //http调用
     compile('com.squareup.okhttp3:okhttp:3.6.0')
+    compile("cn.hutool:hutool-core:5.7.18")
 
+    implementation("org.xerial:sqlite-jdbc:3.34.0")
+    implementation("c3p0:c3p0:0.9.1.2")
+    implementation("org.mongodb:bson:4.4.0")
     //规则引擎
     compile('org.drools:drools-core:7.0.0.Final')
     compile('org.drools:drools-compiler:7.0.0.Final')
@@ -84,7 +92,7 @@ dependencies {
     compile('org.kie:kie-api:7.0.0.Final')
 
     //
-//    compile('com.google.guava:guava:27.0-jre')
+    compile('com.google.guava:guava:27.0-jre')
 
     compile('io.reactivex.rxjava2:rxjava:2.2.10')
 
